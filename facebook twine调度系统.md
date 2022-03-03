@@ -11,7 +11,7 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 # 架构和实现
 ## 概念
 * Entitlement: 代表拥有1套host profile的一批机器组成的虚拟集群，可动态增减机器，机器可跨DC
-* Shard: 管理多个entitlement的调度分片，一般是region级别。1个job必须在1个shard范围内调度，shard可根据资源需求动态增减entitlement
+* Shard: 管理多个entitlement的调度分片，1个region下可以有多个shard。1个job必须在1个shard范围内调度，shard可根据资源需求动态增减entitlement
 * Host Profile: 关联1个entitlement，加入该entitlement下的所有机器都要安装该装机模板，可实现秒级配置
 * Capacity Portal: 用户可以查询和修改Entitlement
 * Front End: 用户部署job的入口
@@ -36,6 +36,11 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 # 组件交互流程
 
 # 设计原则
-* 所有组件都是分shard的，1个region1个shard一套控制面
+* Allocator&scheduler等组件都是分shard的，shard不能太大，否则故障域过大
+* 1个控制面的组件都是保证高可用的
+* 控制面组件故障不影响Task运行
+* 大面积的销毁操作比如shuffle task等要限流
+* 1个DC内实现网络冗余
+
 # 个人总结
 twine是资源调度和任务调度分离的架构，单控制面可支持更多的机器，每个控制面为了做故障冗余预留的资源总体就会变小。动态资源池可随着任务负载的增减动态加减机器，释放的机器统一归属每个shard下的free池。同时配合facebook高效的入池机制实现了机器环境的快速配置。
