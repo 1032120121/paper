@@ -31,19 +31,23 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 ![image](https://user-images.githubusercontent.com/10750904/156517419-ddf265e5-5b72-4a47-83c0-6cf6ffa5dff4.png)
 
 ## 设计
-![image](https://github.com/1032120121/paper/blob/main/%E6%88%AA%E5%B1%8F2022-03-03%2015.51.44.png)
+![image](https://github.com/1032120121/paper/blob/main/image/%E6%88%AA%E5%B1%8F2022-03-03%2015.51.44.png)
 
 # 高扩展性
 ## 分片扩展
 Entitlement所属的机器可动态加减；Shard过载时Entitlement可跨Shard迁移，该Entitlement的task不用重启；job可以跨Entitlement自动的迁移，编排的方式用户可自定义。
 facebook线上最大的调度Shard管理17w台机器，最大的Entitlement有6w台机器，最大的job有1.5w个task；调度峰值1000job/s，单job 36个task
-![image]
+![image](https://github.com/1032120121/paper/blob/main/image/%E6%88%AA%E5%B1%8F2022-03-03%2019.16.11.png)
 
-## 关注点分离
+## 数据存储
+FrontEnd/Allocator/scheduler/RB/HCS/SideKick等组件都是分shard的，FrontEnd/Allocator/Scheduler/RB等有状态的组件的存储都是独立的。存储后端和twine是分离的，方便Shard快速扩展
+
+## 分片和联邦的对比
+常见的集群扩展方式是通过单独构建一套控制面实现的，集群机器是固定的，job也固定在该集群内，twine的扩展方式和它不同，因此移动的是机器而不是task。联邦的成本在于联邦集群和子集群之间要保证元数据和操作的一致协作。分片的好处是直接移动虚拟集群即可，job不用出Shard调度域
 
 # 设计原则
-* FrontEnd&Allocator&scheduler&RB&HCS&SideKick等组件都是分shard的，shard不能太大，否则故障域过大
-* 1个控制面的组件都是保证高可用的
+* 控制面的组件都是分shard的，shard不能太大，否则故障域过大
+* 1个控制面的组件都是保证有副本高可用的
 * 控制面组件故障不影响Task运行
 * 大面积的销毁操作比如shuffle task等要限流
 * 1个DC内实现网络冗余
