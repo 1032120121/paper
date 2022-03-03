@@ -6,7 +6,8 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 * 一套控制平面可以管理100w台机器
 * 应用可以和控制平面配合实现task的生命周期的自我管理
 * 主机级别的环境定制
-* 倾向于单核64M的小型节能机器（Power-efficient machines）
+* 倾向于单核64M的小型节能机器（不具有通用型）
+
 # 架构设计
 ## 概念
 * entitlement：代表拥有1套host profile的一批机器组成的虚拟集群，可动态增减机器，机器可跨DC
