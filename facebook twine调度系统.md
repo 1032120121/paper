@@ -36,6 +36,8 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 # 高扩展性
 ## 分片扩展
 Entitlement所属的机器可动态加减；Shard过载时Entitlement可跨Shard迁移，该Entitlement的task不用重启；job可以跨Entitlement自动的迁移，编排的方式用户可自定义。
+facebook线上最大的调度Shard管理17w台机器，最大的Entitlement有6w台机器，最大的job有1.5w个task；调度峰值1000job/s，单job 36个task
+![image]
 
 ## 关注点分离
 
