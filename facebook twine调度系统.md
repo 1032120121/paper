@@ -22,7 +22,7 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 * Resource Broker(RB): 存储机器基本信息，以及故障和维修的事件
 * Ops Planner: DC域管理员通过它运维机器
 * Health Check Service (HCS): 监控机器并更新状态到RB
-* Sidekick: 切换主机的配置
+* SideKick: 切换主机的配置
 * Service Resource Manager (SRM) : 动态伸缩job响应负载的变化
 * Conveyor: 持续部署系统
 * Application-Level Scheduler: 在twine之上对业务开放的应用调度框架，twine为其提供资源，业务自行定制任务编排，如stateful，batch,AI等
@@ -33,10 +33,14 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 ## 设计
 ![image](https://github.com/1032120121/paper/blob/main/%E6%88%AA%E5%B1%8F2022-03-03%2015.51.44.png)
 
-# 组件交互流程
+# 高扩展性
+## 分片扩展
+Entitlement所属的机器可动态加减；Shard过载时Entitlement可跨Shard迁移，该Entitlement的task不用重启；job可以跨Entitlement自动的迁移，编排的方式用户可自定义。
+
+## 关注点分离
 
 # 设计原则
-* Allocator&scheduler等组件都是分shard的，shard不能太大，否则故障域过大
+* FrontEnd&Allocator&scheduler&RB&HCS&SideKick等组件都是分shard的，shard不能太大，否则故障域过大
 * 1个控制面的组件都是保证高可用的
 * 控制面组件故障不影响Task运行
 * 大面积的销毁操作比如shuffle task等要限流
