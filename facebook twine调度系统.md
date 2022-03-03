@@ -8,7 +8,7 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 * 主机级别的环境定制
 * 倾向于单核64M的小型节能机器（不具有通用型）
 
-# 架构设计
+# 架构和实现
 ## 概念
 * Entitlement: 代表拥有1套host profile的一批机器组成的虚拟集群，可动态增减机器，机器可跨DC
 * Shard: 管理多个entitlement的调度分片，一般是region级别。1个job必须在1个shard范围内调度，shard可根据资源需求动态增减entitlement
@@ -25,16 +25,16 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 * Sidekick: 切换主机的配置
 * Service Resource Manager (SRM) : 动态伸缩job响应负载的变化
 * Conveyor: 持续部署系统
-
-
 ![image](https://user-images.githubusercontent.com/10750904/156516453-ea00495c-2641-48dd-b89d-cd20536fa9a4.png)
 ![image](https://user-images.githubusercontent.com/10750904/156517334-67d0164a-c77f-41f6-bd55-fcb0cf50f744.png)
 ![image](https://user-images.githubusercontent.com/10750904/156517419-ddf265e5-5b72-4a47-83c0-6cf6ffa5dff4.png)
 
-
-
-## 主体
+## 设计
 ![image](https://github.com/1032120121/paper/blob/main/%E6%88%AA%E5%B1%8F2022-03-03%2015.51.44.png)
+
 # 组件交互流程
 
 # 设计原则
+
+# 个人总结
+twine是资源调度和任务调度分离的架构，单控制面可支持更多的机器。动态资源池可随着任务负载的增减动态加减机器，释放的机器统一归属每个shard下的free池。同时配合facebook高效的入池机制实现了机器环境的快速配置。
