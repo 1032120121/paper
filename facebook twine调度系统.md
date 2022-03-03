@@ -25,6 +25,7 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 * Sidekick: 切换主机的配置
 * Service Resource Manager (SRM) : 动态伸缩job响应负载的变化
 * Conveyor: 持续部署系统
+* Application-Level Scheduler: 在twine之上对业务开放的应用调度框架，twine为其提供资源，业务自行定制任务编排，如stateful，batch,AI等
 ![image](https://user-images.githubusercontent.com/10750904/156516453-ea00495c-2641-48dd-b89d-cd20536fa9a4.png)
 ![image](https://user-images.githubusercontent.com/10750904/156517334-67d0164a-c77f-41f6-bd55-fcb0cf50f744.png)
 ![image](https://user-images.githubusercontent.com/10750904/156517419-ddf265e5-5b72-4a47-83c0-6cf6ffa5dff4.png)
@@ -35,6 +36,6 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 # 组件交互流程
 
 # 设计原则
-
+* 
 # 个人总结
 twine是资源调度和任务调度分离的架构，单控制面可支持更多的机器，每个控制面为了做故障冗余预留的资源总体就会变小。动态资源池可随着任务负载的增减动态加减机器，释放的机器统一归属每个shard下的free池。同时配合facebook高效的入池机制实现了机器环境的快速配置。
