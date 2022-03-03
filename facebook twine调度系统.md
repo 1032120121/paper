@@ -24,7 +24,7 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 
 
 ## 主体
-
+![image](https://github.com/1032120121/paper/blob/main/%E6%88%AA%E5%B1%8F2022-03-03%2015.51.44.png)
 # 组件交互流程
 
 # 设计原则
