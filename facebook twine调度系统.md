@@ -10,11 +10,21 @@ https://www.usenix.org/system/files/osdi20-tang.pdf
 
 # 架构设计
 ## 概念
-* entitlement：代表拥有1套host profile的一批机器组成的虚拟集群，可动态增减机器，机器可跨DC
-* shard：管理多个entitlement的调度分片。1个job必须在1个shard范围内调度，shard可根据资源需求动态增减entitlement
-* host profile：关联1个entitlement，加入该entitlement下的所有机器都要安装该装机模板，可实现秒级配置
-* scheduler：
-* allocator：分配器。
+* Entitlement: 代表拥有1套host profile的一批机器组成的虚拟集群，可动态增减机器，机器可跨DC
+* Shard: 管理多个entitlement的调度分片，一般是region级别。1个job必须在1个shard范围内调度，shard可根据资源需求动态增减entitlement
+* Host Profile: 关联1个entitlement，加入该entitlement下的所有机器都要安装该装机模板，可实现秒级配置
+* Capacity Portal: 用户可以查询和修改Entitlement
+* Front End: 用户部署job的入口
+* Scheduler: 管理job和task的生命周期，编排job
+* TaksController: 可选的。scheduler可以与用户自定义的TaskController交互，决定task的启停
+* Allocator: 分配机器给Entitlement，调度task到机器
+* Rebalancer: 异步和持续的优化Allocator的决策，均衡CPU、功耗、网络的使用率
+* Resource Broker(RB): 存储机器基本信息，以及故障和维修的事件
+* Ops Planner: DC域管理员通过它运维机器
+* Health Check Service (HCS): 监控机器并更新状态到RB
+* Sidekick: 切换主机的配置
+* Service Resource Manager (SRM) : 动态伸缩job响应负载的变化
+* Conveyor: 持续部署系统
 
 
 ![image](https://user-images.githubusercontent.com/10750904/156516453-ea00495c-2641-48dd-b89d-cd20536fa9a4.png)
